@@ -4,12 +4,17 @@ import datetime
 
 Bank = []
 Account = []
+Customer = []
 
 def GenAccountNo():
 
     accountNo =''.join(random.choices(string.digits, k=10))
     return accountNo
 
+def GenCustomerId():
+
+    CustomerId = ''.join(random.choices(string.digits, k = 12 ))
+    return CustomerId
 
 def CreateAcc():
 
@@ -62,6 +67,39 @@ def CreateAcc():
     print("Account Created Succesfully!!")
 
 
-    
-CreateAcc()
-CreateAcc()
+def AddCutomer():
+
+    customerName = input("Enter Your Full Name : ")
+    customerAge = input("Enter your age : ")
+    customerPhoneNum = input("Enter Your Phone.No : ")
+    customerAddress = input("Enter your Address : ")
+
+    while True:
+        customerId = GenCustomerId()
+
+        if not any(
+            existingUser["customerId"] == customerId
+            for existingUser in Customer
+        ):
+            break
+
+    customerJoinDate = datetime.datetime.now().strftime("%d-%m-%y")
+
+    user = {
+
+        "customerId": customerId,
+        "customerName": customerName,
+        "customerAge": customerAge,
+        "customerPhoneNum": customerPhoneNum,
+        "customerAddress": customerAddress,
+        "customerJoinDate": customerJoinDate
+    }
+
+    Customer.append(user)
+
+    print(f"\nCustomer Added To The DataBase : {user}")
+
+    print("=" * 30)
+
+    print(f"{user['customerName']} Welcome to CLI Bank Services!")
+    return
