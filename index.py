@@ -5,16 +5,20 @@ import datetime
 Bank = []
 Account = []
 Customer = []
+Transaction = []
 
 def GenAccountNo():
-
     accountNo =''.join(random.choices(string.digits, k=10))
     return accountNo
 
 def GenCustomerId():
-
     CustomerId = ''.join(random.choices(string.digits, k = 12 ))
     return CustomerId
+
+def TransId():
+    tranId = ''.join(random.choices(string.digits, k = 10))
+    return tranId
+
 
 def CreateAcc():
 
@@ -51,7 +55,7 @@ def CreateAcc():
         'userName':UserName,
         'userDob':UserDob,
         'userPhone':userPhone,
-        'UserEmail':UserEmail,
+        'userEmail':UserEmail,
         'userAddress':UserAddress,
         'userPin':UserPin,
         'userInitDeposite':UserInitDeposite,
@@ -103,3 +107,54 @@ def AddCutomer():
 
     print(f"{user['customerName']} Welcome to CLI Bank Services!")
     return
+
+
+def DepositMoney():
+
+    depositeAccountNo = input("Enter Your Account.no : ")
+
+    for item in Account:
+
+        if depositeAccountNo == item["accountNum"]:
+
+            print(f"Account {item['accountNum']} found!!")
+
+            askPin = input("Enter Pin For Your Account : ")
+
+            if askPin == item["userPin"]:
+
+                print("Pin Matched Successfully!")
+            else:
+
+                print("Incorrect Pin!")
+                return
+
+            depositAmmount = float(input("Enter The Deposit Ammount : "))
+
+            if depositAmmount <= 0:
+                print("Deposit amount must be greater than ₹0!")
+                return
+            
+            item["accountBalance"] += depositAmmount
+
+            depositDate = datetime.datetime.now().strftime("%d-%m-%y")
+
+            Tran = {
+
+                "depositAccountNo": depositeAccountNo,
+                "transactionId": TransId(),
+                "depositDate": depositDate,
+                "depositAmount": depositAmmount,
+                "transactionType": "Deposit",
+                "balanceAfter": item["accountBalance"]
+            }
+
+            item["accountTransactionHistory"].append(Tran)
+            Transaction.append(Tran)
+
+            print(f"\nAccount No : {item['accountNum']}")
+            print(f"₹{depositAmmount} Deposit Successful!")
+            print(f"Current Balance : ₹{item['accountBalance']}")
+            return
+
+    print(f"Account No {depositeAccountNo} does not exist!")
