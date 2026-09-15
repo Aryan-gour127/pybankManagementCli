@@ -158,3 +158,70 @@ def DepositMoney():
             return
 
     print(f"Account No {depositeAccountNo} does not exist!")
+
+def WithdrawMoney():
+    pass
+
+def TransferMoney():
+    pass
+
+def CheckBalance():
+    pass
+
+def ViewTransactionHistory():
+    pass
+
+def CloseAccount():
+    pass
+
+while True:
+
+
+    print("="*30)
+    print("="*8 + "Choose Action" + "="*8)
+    print("="*30)
+    print("1. Create Account")
+    print("2. Add Customer")
+    print("3. Deposite Money")
+    print("4. Withdraw Money")
+    print("5. Transfer Monay")
+    print("6. Check Balance")
+    print("7. View Transactions")
+    print("8. Close Account")
+    print("9. Exit Bank Cli")
+    print("="*30)
+
+
+    selectAction = input("Enter Choice Action.No (1.2.3.4.5.6.7.8.9) : ")
+
+    if selectAction == "1":
+        CreateAcc()
+
+    elif selectAction == "2":
+        AddCutomer()
+
+    elif selectAction == "3":
+        DepositMoney()
+
+    elif selectAction == "4":
+        WithdrawMoney()
+
+    elif selectAction == "5":
+        TransferMoney()
+
+    elif selectAction == "6":
+        CheckBalance()
+
+    elif selectAction == "7":
+        ViewTransactionHistory()
+
+    elif selectAction == "8":
+        CloseAccount()
+
+    elif selectAction == "9":
+        print("Thank Your Dear Customer For Trusting Us!!")
+        print("Goodbye , Visiting The Bank Again!!")
+        break
+
+    else :
+        print("invalid choice!!")
