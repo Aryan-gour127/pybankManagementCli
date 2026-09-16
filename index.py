@@ -16,8 +16,18 @@ def GenCustomerId():
     return CustomerId
 
 def TransId():
-    tranId = ''.join(random.choices(string.digits, k = 10))
-    return tranId
+
+    while True:
+
+        tranId = ''.join(
+            random.choices(string.digits, k=10)
+        )
+
+        if not any(
+            transaction["transactionId"] == tranId
+            for transaction in Transaction
+        ):
+            return tranId
 
 
 def CreateAcc():
@@ -160,7 +170,60 @@ def DepositMoney():
     print(f"Account No {depositeAccountNo} does not exist!")
 
 def WithdrawMoney():
-    pass
+
+    WithdrawAccountNo = input("Enter Your Account Number!")
+
+    for item in Account:
+
+        WithdrawAmmount = float(input("Enter The Withdraw Ammount : "))
+
+        if WithdrawAccountNo == item['accountNum']:
+        
+            if WithdrawAmmount <= 0:
+
+                print("Withdraw amount must be greater than ₹0!")
+
+                return
+
+            if WithdrawAmmount > item["accountBalance"]:
+
+                print("Insufficient Balance!!")
+
+                return
+
+            askPin = input("Enter Your PIN : ")
+
+            if askPin != item["userPin"]:
+
+                print("Incorrect Pin!")
+
+                return
+
+            print("Pin Matched Successfully!")
+            
+            item["accountBalance"] -= WithdrawAmmount
+
+            withdrawDate = datetime.datetime.now().strftime("%d-%m-%y")
+            Tran = {
+
+                "WithdrawAccountNo": WithdrawAccountNo,
+                "transactionId": TransId(),
+                "withdrawDate": withdrawDate,
+                "WithdrawAmmount": WithdrawAmmount,
+                "transactionType": "Withdraw",
+                "balanceAfter": item["accountBalance"]
+            }
+
+            item["accountTransactionHistory"].append(Tran)
+            Transaction.append(Tran)
+
+            print(f"\nAccount No : {item['accountNum']}")
+            print(f"₹{WithdrawAmmount} Deposit Successful!")
+            print(f"Current Balance : ₹{item['accountBalance']}")
+            return
+
+    print(f"Account No {WithdrawAccountNo} does not exist!")
+
 
 def TransferMoney():
     pass
