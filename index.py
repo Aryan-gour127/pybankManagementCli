@@ -334,15 +334,41 @@ def CheckBalance():
              if askPin != item['userPin']:
                  print("Incorrect pin!")
                  return
+             
              print("Pin Matched Succesfully!")
+
              print("-"*30)
              print(f"Current Account Balance : ${item['accountBalance']}")
              print("-"*30)
+
              return
-     print(f"Account No {Check} does not exist!")
+         
+     print(f"Account Number {Check} does not exist!")
 
 def ViewTransactionHistory():
-    pass
+
+    view = input("Enter Your Account Number : ")
+
+    for item in Account:
+
+        if view == item['accountNum']:
+
+            print("Account Match Found Succesfully!")
+
+            askPin = input("Enter Account Pin  ")
+
+            if askPin != item['userPin']:
+                print("Pin Incorrect !")
+                return
+            print("Pin Matched Sucessfully !")
+
+            print("-"*30)
+            print(f"Your Transacion History fro Account : {item['accountNum']}")
+            print("-"*30)
+            print(f"Transaction History")
+            print(f"- > {item['accountTransactionHistory']}")
+            return
+    print(f"Account Number {view} does not Exists ! ")
 
 def CloseAccount():
     pass
