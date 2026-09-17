@@ -49,16 +49,16 @@ def CreateAcc():
         if not any(Acc["accountNum"] == accountNum for Acc in Account):
             break
 
-    UserInitDeposite = int(input("Enter Initial Deposite Amount : "))
+    UserInitDeposit = int(input("Enter Initial Deposit Amount : "))
 
-    if UserInitDeposite < 300 :
-        print(f"Minimum Initial Deposite Must be greater than (300rs)")
+    if UserInitDeposit < 300 :
+        print(f"Minimum Initial Deposit Must be greater than (300rs)")
         return
 
     # accountNum = GenAccountNo()
     accountCreateDate = datetime.datetime.now().strftime("%d-%m-%y")
     accountStatus = "Active"
-    accountBalance = UserInitDeposite
+    accountBalance = UserInitDeposit
     accountTransactionHistory = []
 
     Acc = {
@@ -68,7 +68,7 @@ def CreateAcc():
         'userEmail':UserEmail,
         'userAddress':UserAddress,
         'userPin':UserPin,
-        'userInitDeposite':UserInitDeposite,
+        'UserInitDeposit':UserInitDeposit,
         'accountNum':accountNum,
         'accountCreateDate':accountCreateDate,
         'accountStatus':accountStatus,
@@ -78,10 +78,10 @@ def CreateAcc():
     
     Account.append(Acc)
     print(Acc)
-    print("Account Created Succesfully!!")
+    print("Account Created Successfully!!")
 
 
-def AddCutomer():
+def AddCustomer():
 
     customerName = input("Enter Your Full Name : ")
     customerAge = input("Enter your age : ")
@@ -121,11 +121,11 @@ def AddCutomer():
 
 def DepositMoney():
 
-    depositeAccountNo = input("Enter Your Account.no : ")
+    DepositAccountNo = input("Enter Your Account.no : ")
 
     for item in Account:
 
-        if depositeAccountNo == item["accountNum"]:
+        if DepositAccountNo == item["accountNum"]:
 
             print(f"Account {item['accountNum']} found!!")
 
@@ -139,35 +139,36 @@ def DepositMoney():
                 print("Incorrect Pin!")
                 return
 
-            depositAmmount = float(input("Enter The Deposit Ammount : "))
+            depositAmount = float(input("Enter The Deposit Amount : "))
 
-            if depositAmmount <= 0:
+            if depositAmount <= 0:
                 print("Deposit amount must be greater than ₹0!")
                 return
             
-            item["accountBalance"] += depositAmmount
+            item["accountBalance"] += depositAmount
 
             depositDate = datetime.datetime.now().strftime("%d-%m-%y")
 
             Tran = {
 
-                "depositAccountNo": depositeAccountNo,
-                "transactionId": TransId(),
-                "depositDate": depositDate,
-                "depositAmount": depositAmmount,
-                "transactionType": "Deposit",
-                "balanceAfter": item["accountBalance"]
+            "accountNumber": DepositAccountNo,
+            "transactionId": TransId(),
+            "date": depositDate,
+            "amount": depositAmount,
+            "transactionType": "Deposit",
+            "balanceAfter": item["accountBalance"]
+
             }
 
             item["accountTransactionHistory"].append(Tran)
             Transaction.append(Tran)
 
             print(f"\nAccount No : {item['accountNum']}")
-            print(f"₹{depositAmmount} Deposit Successful!")
+            print(f"₹{depositAmount} Deposit Successful!")
             print(f"Current Balance : ₹{item['accountBalance']}")
             return
 
-    print(f"Account No {depositeAccountNo} does not exist!")
+    print(f"Account No {DepositAccountNo} does not exist!")
 
 def WithdrawMoney():
 
@@ -175,17 +176,17 @@ def WithdrawMoney():
 
     for item in Account:
 
-        WithdrawAmmount = float(input("Enter The Withdraw Ammount : "))
+        WithdrawAmount = float(input("Enter The Withdraw Amount : "))
 
         if WithdrawAccountNo == item['accountNum']:
         
-            if WithdrawAmmount <= 0:
+            if WithdrawAmount <= 0:
 
                 print("Withdraw amount must be greater than ₹0!")
 
                 return
 
-            if WithdrawAmmount > item["accountBalance"]:
+            if WithdrawAmount > item["accountBalance"]:
 
                 print("Insufficient Balance!!")
 
@@ -201,24 +202,25 @@ def WithdrawMoney():
 
             print("Pin Matched Successfully!")
             
-            item["accountBalance"] -= WithdrawAmmount
+            item["accountBalance"] -= WithdrawAmount
 
             withdrawDate = datetime.datetime.now().strftime("%d-%m-%y")
             Tran = {
-
-                "WithdrawAccountNo": WithdrawAccountNo,
+                
+                "accountNumber": WithdrawAccountNo,
                 "transactionId": TransId(),
-                "withdrawDate": withdrawDate,
-                "WithdrawAmmount": WithdrawAmmount,
+                "date": withdrawDate,
+                "amount": WithdrawAmount,
                 "transactionType": "Withdraw",
                 "balanceAfter": item["accountBalance"]
+
             }
 
             item["accountTransactionHistory"].append(Tran)
             Transaction.append(Tran)
 
             print(f"\nAccount No : {item['accountNum']}")
-            print(f"₹{WithdrawAmmount} Withdraw Successful!")
+            print(f"₹{WithdrawAmount} Withdraw Successful!")
             print(f"Current Balance : ₹{item['accountBalance']}")
             return
 
@@ -233,14 +235,14 @@ def TransferMoney():
 
         if SenderAccountNo == Sender['accountNum']:
 
-            print("Account Found Succesfully!")
+            print("Account Found Successfully!")
 
-            askPin = input("Enter Pin for Your Accout : ")
+            askPin = input("Enter Pin for Your Account : ")
 
             if askPin != Sender['userPin']:
                 print("Incorrect pin!")
                 return
-            print("Pin Matched Succesfully!")
+            print("Pin Matched Successfully!")
 
             ReceiverAccountNo = input("Enter Receiver Account Number : ")
 
@@ -264,42 +266,43 @@ def TransferMoney():
 
             print("Receiver Account Found Successfully!")
 
-            TransferAmmount = float(input("Enter Transfer Ammount : "))
+            TransferAmount = float(input("Enter Transfer Amount : "))
 
-            if TransferAmmount <= 0 :
-                print("Transfer Ammount Must be Greater Than 0!")
+            if TransferAmount <= 0 :
+                print("Transfer Amount Must be Greater Than 0!")
                 return
-            elif TransferAmmount > Sender['accountBalance']:
-                print("Insuffucient Balance in Your Account ")
+            elif TransferAmount > Sender['accountBalance']:
+                print("Insufficient Balance in Your Account ")
                 print(f"Current Balance :{Sender['accountBalance']}")
                 return
 
-            Sender['accountBalance'] -= TransferAmmount
-            Receiver['accountBalance'] += TransferAmmount
+            Sender['accountBalance'] -= TransferAmount
+            Receiver['accountBalance'] += TransferAmount
 
-            TranferDate = datetime.datetime.now().strftime("%d-%m-%y")
+            TransferDate = datetime.datetime.now().strftime("%d-%m-%y")
 
             transactionId = TransId()
             
             SenderTransaction = {
-                    
-                 "SenderAccountNo": SenderAccountNo,
-                 "ReceiverAccountNo": ReceiverAccountNo,
-                 "transactionId": transactionId,
-                 "TranferDate": TranferDate,
-                 "TransferAmmount": TransferAmmount,
-                 "transactionType": "Transfer",
-                 "balanceAfter": Sender["accountBalance"]
+
+                "SenderAccountNo": SenderAccountNo,
+                "ReceiverAccountNo": ReceiverAccountNo,
+                "transactionId": transactionId,
+                "date": TransferDate,
+                "amount": TransferAmount,
+                "transactionType": "Transfer",
+                "balanceAfter": Sender["accountBalance"]
+
             }
             ReceiverTransaction = {
                     
-                 "SenderAccountNo": SenderAccountNo,
-                 "ReceiverAccountNo": ReceiverAccountNo,
-                 "transactionId": transactionId,
-                 "TranferDate": TranferDate,
-                 "TransferAmmount": TransferAmmount,
-                 "transactionType": "Transfer",
-                 "balanceAfter": Receiver["accountBalance"]
+                "SenderAccountNo": SenderAccountNo,
+                "ReceiverAccountNo": ReceiverAccountNo,
+                "transactionId": transactionId,
+                "date": TransferDate,
+                "amount": TransferAmount,
+                "transactionType": "Transfer",
+                "balanceAfter": Receiver["accountBalance"]
             }
 
             Sender['accountTransactionHistory'].append(SenderTransaction)
@@ -309,15 +312,15 @@ def TransferMoney():
             Transaction.append(ReceiverTransaction)
 
             print("\nTransfer Successful!")
-            print(f"From Account : {SenderAccountNo}")
+            print(f"form Account : {SenderAccountNo}")
             print(f"To Account   : {ReceiverAccountNo}")
-            print(f"Amount       : ₹{TransferAmmount}")
+            print(f"Amount       : ₹{TransferAmount}")
             print(f"Your Balance : ₹{Sender['accountBalance']}")
 
             return
 
     print(
-            f"Account No {SenderAccountNo} does not Exists!!"
+            f"Account No {SenderAccountNo} does not exist!!"
         )
 
 def CheckBalance():
@@ -327,7 +330,7 @@ def CheckBalance():
      for item in Account:
 
          if Check == item['accountNum']:
-             print("Account Match Found Succesdully!")
+             print("Account Match Found Successfully!")
 
              askPin = input("Enter Your Pin :")
 
@@ -335,10 +338,10 @@ def CheckBalance():
                  print("Incorrect pin!")
                  return
              
-             print("Pin Matched Succesfully!")
+             print("Pin Matched Successfully!")
 
              print("-"*30)
-             print(f"Current Account Balance : ${item['accountBalance']}")
+             print(f"Current Account Balance : ₹{item['accountBalance']}")
              print("-"*30)
 
              return
@@ -353,22 +356,37 @@ def ViewTransactionHistory():
 
         if view == item['accountNum']:
 
-            print("Account Match Found Succesfully!")
+            print("Account Match Found Successfully!")
 
             askPin = input("Enter Account Pin  ")
 
             if askPin != item['userPin']:
                 print("Pin Incorrect !")
                 return
-            print("Pin Matched Sucessfully !")
+            print("Pin Matched Successfully !")
 
-            print("-"*30)
-            print(f"Your Transacion History fro Account : {item['accountNum']}")
-            print("-"*30)
+            print("-" * 30)
+            print(f"Your Transaction History for Account : {item['accountNum']}")
+            print("-" * 30)
             print(f"Transaction History")
-            print(f"- > {item['accountTransactionHistory']}")
+
+            # print(f"- > {item['accountTransactionHistory']}")
+            for transaction in item['accountTransactionHistory']:
+
+                print(f"Transaction ID     : " f"{transaction['transactionId']}")
+
+                print(f"Transaction Type   : "f"{transaction['transactionType']}")
+
+                print(f"Transaction Amount : "f"₹{transaction['amount']}")
+
+                print(f"Transaction Date   : "f"{transaction['date']}")
+
+                print(f"Balance After      : "f"₹{transaction['balanceAfter']}")
+                print("-" * 30)
+
             return
-    print(f"Account Number {view} does not Exists ! ")
+
+    print(f"Account Number {view} does not exist!")
 
 def CloseAccount():
     pass
@@ -381,13 +399,13 @@ while True:
     print("="*30)
     print("1. Create Account")
     print("2. Add Customer")
-    print("3. Deposite Money")
+    print("3. Deposit Money")
     print("4. Withdraw Money")
-    print("5. Transfer Monay")
+    print("5. Transfer money")
     print("6. Check Balance")
     print("7. View Transactions")
     print("8. Close Account")
-    print("9. Exit Bank Cli")
+    print("9. Exit Bank CLI")
     print("="*30)
 
 
@@ -397,7 +415,7 @@ while True:
         CreateAcc()
 
     elif selectAction == "2":
-        AddCutomer()
+        AddCustomer()
 
     elif selectAction == "3":
         DepositMoney()
