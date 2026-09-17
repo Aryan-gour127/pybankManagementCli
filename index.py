@@ -389,7 +389,43 @@ def ViewTransactionHistory():
     print(f"Account Number {view} does not exist!")
 
 def CloseAccount():
-    pass
+
+    close = input("Enter Your Account Number : ")
+
+    for item in Account:
+
+        if close != item['accountNum']:
+
+            print(f"No Account Found with Account.No {close}")
+
+            return
+
+        print("Account Match Found!")
+
+        check = input("DO YOU WANT TO CLOSE THIS ACCOUNT ? (y/n)")
+
+        if check == "y":
+
+            item['accountBalance'] >= 0
+
+            print("Can't close Account Yet, Make Sure Your Account Balance is Zero")
+
+            print(f"Current Account Balance = {item['accountBalance']}")
+
+            return
+
+        item['accountStatus'] == "closed"
+
+        for acc in Account:
+
+            print(f"Account Holder Name   : {acc['userName']}")
+            print(f"Account Number        : {acc['accountNum']}")
+            print(f"Account Creation-Date : {acc['accountCreateDate']}")
+            print(f"Account Status        : {acc['accountStatus']}")
+
+            return
+
+    print(f"Account Number {close} Does Not Exist!")
 
 while True:
 
