@@ -218,7 +218,7 @@ def WithdrawMoney():
             Transaction.append(Tran)
 
             print(f"\nAccount No : {item['accountNum']}")
-            print(f"₹{WithdrawAmmount} Deposit Successful!")
+            print(f"₹{WithdrawAmmount} Withdraw Successful!")
             print(f"Current Balance : ₹{item['accountBalance']}")
             return
 
@@ -226,7 +226,99 @@ def WithdrawMoney():
 
 
 def TransferMoney():
-    pass
+
+    SenderAccountNo = input("Enter Your Account Number : ")
+
+    for Sender in Account:
+
+        if SenderAccountNo == Sender['accountNum']:
+
+            print("Account Found Succesfully!")
+
+            askPin = input("Enter Pin for Your Accout : ")
+
+            if askPin != Sender['userPin']:
+                print("Incorrect pin!")
+                return
+            print("Pin Matched Succesfully!")
+
+            ReceiverAccountNo = input("Enter Receiver Account Number : ")
+
+            if SenderAccountNo == ReceiverAccountNo:
+                print("Sender and Receiver Account can not be same !!")
+                return
+
+            Receiver = None
+
+            for item in Account:
+            
+                if ReceiverAccountNo == item['accountNum']:
+                    Receiver = item
+                    break
+                
+            if Receiver is None:
+                print(
+                    f"Receiver Account No {ReceiverAccountNo} does not exist!"
+                )
+                return
+
+            print("Receiver Account Found Successfully!")
+
+            TransferAmmount = float(input("Enter Transfer Ammount : "))
+
+            if TransferAmmount <= 0 :
+                print("Transfer Ammount Must be Greater Than 0!")
+                return
+            elif TransferAmmount > Sender['accountBalance']:
+                print("Insuffucient Balance in Your Account ")
+                print(f"Current Balance :{Sender['accountBalance']}")
+                return
+
+            Sender['accountBalance'] -= TransferAmmount
+            Receiver['accountBalance'] += TransferAmmount
+
+            TranferDate = datetime.datetime.now().strftime("%d-%m-%y")
+
+            transactionId = TransId()
+            
+            SenderTransaction = {
+                    
+                 "SenderAccountNo": SenderAccountNo,
+                 "ReceiverAccountNo": ReceiverAccountNo,
+                 "transactionId": transactionId,
+                 "TranferDate": TranferDate,
+                 "TransferAmmount": TransferAmmount,
+                 "transactionType": "Transfer",
+                 "balanceAfter": Sender["accountBalance"]
+            }
+            ReceiverTransaction = {
+                    
+                 "SenderAccountNo": SenderAccountNo,
+                 "ReceiverAccountNo": ReceiverAccountNo,
+                 "transactionId": transactionId,
+                 "TranferDate": TranferDate,
+                 "TransferAmmount": TransferAmmount,
+                 "transactionType": "Transfer",
+                 "balanceAfter": Receiver["accountBalance"]
+            }
+
+            Sender['accountTransactionHistory'].append(SenderTransaction)
+            Receiver['accountTransactionHistory'].append(ReceiverTransaction)
+
+            Transaction.append(SenderTransaction)
+            Transaction.append(ReceiverTransaction)
+
+            print("\nTransfer Successful!")
+            print(f"From Account : {SenderAccountNo}")
+            print(f"To Account   : {ReceiverAccountNo}")
+            print(f"Amount       : ₹{TransferAmmount}")
+            print(f"Your Balance : ₹{Sender['accountBalance']}")
+
+            return
+
+    print(
+            f"Account No {SenderAccountNo} does not Exists!!"
+        )
 
 def CheckBalance():
     pass
