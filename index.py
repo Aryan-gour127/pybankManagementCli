@@ -1,11 +1,45 @@
 import random 
 import string
 import datetime
+import json
 
 Bank = []
 Account = []
 Customer = []
 Transaction = []
+
+def SaveData():
+
+    accData = {
+        "accounts" : Account,
+        "customers": Customer,
+        "trnsaction":Transaction
+    }
+
+    with open("data/bank_data.json", "w") as file:
+        json.dump(accData,file, indent=4)
+        
+    print("data saved succesfully!!")
+
+def LoadData():
+
+    global Account
+    global Customer
+    global Transaction
+
+    try:
+        with open("data/bank_data.json","r") as file:
+            data =  json.load(file)
+    
+        Account = data.get("Account",[])
+        Customer = data.get("Customer", [])
+        Transaction = data.get("Transaction", [])
+
+        print("Data Loaded Successfully")
+
+    except FileNotFoundError:
+        print("No Previous Data Found. Starting fresh !!")
+
 
 def GenAccountNo():
     accountNo =''.join(random.choices(string.digits, k=10))
@@ -427,6 +461,8 @@ def CloseAccount():
 
     print(f"Account Number {close} Does Not Exist!")
 
+LoadData()
+
 while True:
 
 
@@ -441,11 +477,12 @@ while True:
     print("6. Check Balance")
     print("7. View Transactions")
     print("8. Close Account")
-    print("9. Exit Bank CLI")
+    print("9. Save Data")
+    print("10. Exit Bank CLI")
     print("="*30)
 
 
-    selectAction = input("Enter Choice Action.No (1.2.3.4.5.6.7.8.9) : ")
+    selectAction = input("Enter Choice Action.No (1.2.3.4.5.6.7.8.9.10) : ")
 
     if selectAction == "1":
         CreateAcc()
@@ -472,6 +509,10 @@ while True:
         CloseAccount()
 
     elif selectAction == "9":
+        SaveData()
+    
+    elif selectAction == "10":
+        SaveData()
         print("Thank Your Dear Customer For Trusting Us!!")
         print("Goodbye , Visiting The Bank Again!!")
         break
