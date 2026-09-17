@@ -321,7 +321,25 @@ def TransferMoney():
         )
 
 def CheckBalance():
-    pass
+     
+     Check = input("Enter Your Account Number : ")
+
+     for item in Account:
+
+         if Check == item['accountNum']:
+             print("Account Match Found Succesdully!")
+
+             askPin = input("Enter Your Pin :")
+
+             if askPin != item['userPin']:
+                 print("Incorrect pin!")
+                 return
+             print("Pin Matched Succesfully!")
+             print("-"*30)
+             print(f"Current Account Balance : ${item['accountBalance']}")
+             print("-"*30)
+             return
+     print(f"Account No {Check} does not exist!")
 
 def ViewTransactionHistory():
     pass
