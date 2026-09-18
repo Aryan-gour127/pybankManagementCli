@@ -465,7 +465,6 @@ LoadData()
 
 while True:
 
-
     print("="*30)
     print("="*8 + "Choose Action" + "="*8)
     print("="*30)
