@@ -3,7 +3,7 @@ import string
 import datetime
 import json
 
-Bank = []
+# Bank = []
 Account = []
 Customer = []
 Transaction = []
@@ -11,9 +11,9 @@ Transaction = []
 def SaveData():
 
     accData = {
-        "accounts" : Account,
-        "customers": Customer,
-        "trnsaction":Transaction
+        "Accounts" : Account,
+        "Austomers": Customer,
+        "Trnsaction":Transaction
     }
 
     with open("data/bank_data.json", "w") as file:
